@@ -3,7 +3,6 @@ package domain;
 abstract class Plant implements Thing{
     protected int health;
     protected int cost;
-    protected int cooldown;
     protected boolean alive = true;
     protected int x, y;
     protected PoobVsZombies poobVsZombies;

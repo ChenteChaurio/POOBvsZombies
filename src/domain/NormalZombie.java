@@ -2,7 +2,7 @@ package domain;
 
 public class NormalZombie extends Zombie {
     private boolean hasWaitedTwoSeconds = false;
-    private long lastWaitTime = 0;
+    private long lastWaitTime = System.currentTimeMillis();
 
     public NormalZombie(int x, int y, PoobVsZombies poobVsZombies) {
         super(x, y, poobVsZombies);
@@ -10,41 +10,52 @@ public class NormalZombie extends Zombie {
         this.speed = 1;
         this.cost = 100;
         this.lastMoveTime = System.currentTimeMillis();
-        this.lastAttackTime = System.currentTimeMillis();
-
-
+        this.lastAttackTime = 0;
     }
-
 
     @Override
     public void move() throws PoobVsZombiesException {
         if (y > 0) {
-            poobVsZombies.removeThing(this);
-            this.y -= speed;
-            poobVsZombies.setThing(x,y,this);
+            poobVsZombies.addZombieToMove(this);
         }
     }
 
     @Override
-    public void attack() {
-        Plant plant = (Plant) poobVsZombies.getBoard()[x][y-1];
+    public void attack() throws PoobVsZombiesException {
+        Plant plant = (Plant) poobVsZombies.getBoard()[x][y-1].getFirst();
+        if (plant == null) throw new PoobVsZombiesException(PoobVsZombiesException.NULL_OBJECT);
         plant.takeDamage(damage);
     }
 
 
-    public boolean attackMode() {
-        return poobVsZombies.getBoard()[x][y - 1] instanceof Plant;
+    private boolean attackMode() {
+        for (Thing thing : poobVsZombies.getBoard()[x][y-1]) {
+            if (thing instanceof Plant) {
+                return true;
+            }
+        }
+        return false;
     }
+
 
 
     private boolean isValidMovement(int x, int y) {
         return poobVsZombies.isValidMove(x, y);
     }
 
+    private void checkPlant() throws PoobVsZombiesException {
+        if (poobVsZombies.getBoard()[x][y-1].isEmpty()){
+            move();
+            lastMoveTime = System.currentTimeMillis();
+        }
+    }
+
+
+
     @Override
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
-            poobVsZombies.removeThing(this);
+            poobVsZombies.addZombieToRemove(this);
             return;
         }
         if(isValidMovement(x,y-1)){
@@ -52,23 +63,27 @@ public class NormalZombie extends Zombie {
             System.out.println(currentTime - lastMoveTime);
             if ((currentTime - lastMoveTime) >= COOLDOWN && !attackMode()) {
                 move();
+                lastAttackTime = currentTime;
                 lastMoveTime = currentTime;
+                lastWaitTime = currentTime;
                 hasWaitedTwoSeconds = false;
             }else if(attackMode()){
                 if (!hasWaitedTwoSeconds) {
-                    this.lastWaitTime = System.currentTimeMillis();
-                    long elapsedTime = currentTime - lastWaitTime;
-                    if (elapsedTime >= 2500) {
+                    if (currentTime - lastWaitTime >= 2500) {
                         attack();
-                        hasWaitedTwoSeconds = true;
+                        checkPlant();
+                        lastAttackTime = currentTime;
                         lastMoveTime = currentTime;
+                        lastWaitTime = currentTime;
+                        hasWaitedTwoSeconds = true;
                     }
                 }else {
-                    long elapsedActionTime = currentTime - lastAttackTime;
-
-                    if (elapsedActionTime >= ATTACK_COOLDOWN) {
+                    if (currentTime - lastAttackTime >= ATTACK_COOLDOWN) {
                         attack();
+                        checkPlant();
                         lastAttackTime = currentTime;
+                        lastMoveTime = currentTime;
+                        lastWaitTime = currentTime;
                     }
                 }
             }

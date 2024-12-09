@@ -9,13 +9,12 @@ public class Wallnut extends Plant{
 
     @Override
     public void act() {
-
     }
 
     @Override
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
-            poobVsZombies.removeThing(this);
+            poobVsZombies.addPlantToRemove(this);
         }
     }
 }

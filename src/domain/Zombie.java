@@ -21,7 +21,7 @@ abstract class Zombie implements Thing {
 
     public abstract void move() throws PoobVsZombiesException;
 
-    public abstract void attack();
+    public abstract void attack() throws PoobVsZombiesException;
 
     @Override
     public void takeDamage(int damage) {
@@ -42,6 +42,13 @@ abstract class Zombie implements Thing {
 
     public int getY(){
         return y;
+    }
+
+    public void setX(int x){
+        this.x = x;
+    }
+    public void setY(int y){
+        this.y = y;
     }
 
     public int getHealth(){

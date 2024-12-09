@@ -13,8 +13,10 @@ public class PeaShooter extends Plant {
 
     private boolean modeAttack(){
         for (int j = 0; j < poobVsZombies.getBoard()[x].length; j++) {
-            if(poobVsZombies.getBoard()[x][j] instanceof Zombie){
-                return true;
+            for (Thing thing : poobVsZombies.getBoard()[x][j]) {
+                if(thing instanceof Zombie){
+                    return true;
+                }
             }
         }
         return false;
@@ -24,9 +26,8 @@ public class PeaShooter extends Plant {
     @Override
     public void act() {
         long currentTime = System.currentTimeMillis();
-        System.out.println(currentTime - lastShotTime);
         if (modeAttack() && (currentTime - lastShotTime) >= COOLDOWN) {
-            Pea pea = new Pea(x, y);
+            Pea pea = new Pea(x, y+1);
             poobVsZombies.addPea(pea);
             lastShotTime = currentTime;
         }
@@ -35,7 +36,7 @@ public class PeaShooter extends Plant {
     @Override
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
-            poobVsZombies.removeThing(this);
+            poobVsZombies.addPlantToRemove(this);
             return;
         }
         act();

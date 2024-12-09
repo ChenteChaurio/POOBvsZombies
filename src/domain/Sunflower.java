@@ -2,7 +2,7 @@ package domain;
 
 public class Sunflower extends Plant{
     private static final int COOLDOWN = 20000;
-    private long lastShotTime;
+    private long lastShotTime = System.currentTimeMillis();
 
     public Sunflower(int x, int y, PoobVsZombies poobVsZombies) {
         super(x, y, poobVsZombies);
@@ -21,7 +21,7 @@ public class Sunflower extends Plant{
 
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
-            poobVsZombies.removeThing(this);
+            poobVsZombies.addPlantToRemove(this);
             return;
         }
         act();

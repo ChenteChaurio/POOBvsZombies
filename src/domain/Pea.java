@@ -26,7 +26,6 @@ public class Pea {
 
     public void update() {
         long currentTime = System.currentTimeMillis();
-        System.out.println(currentTime - lastShotTime);
         if ((currentTime - lastShotTime) >= COOLDOWN) {
             move();
             lastShotTime = currentTime;
