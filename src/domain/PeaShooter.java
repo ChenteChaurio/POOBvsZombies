@@ -2,7 +2,7 @@ package domain;
 
 public class PeaShooter extends Plant {
     private static final int COOLDOWN = 1500;
-    private long lastShotTime;
+    private long lastShotTime = 0;
 
     public PeaShooter(int x, int y,PoobVsZombies poobVsZombies) {
         super(x, y, poobVsZombies);
@@ -24,6 +24,7 @@ public class PeaShooter extends Plant {
     @Override
     public void act() {
         long currentTime = System.currentTimeMillis();
+        System.out.println(currentTime - lastShotTime);
         if (modeAttack() && (currentTime - lastShotTime) >= COOLDOWN) {
             Pea pea = new Pea(x, y);
             poobVsZombies.addPea(pea);

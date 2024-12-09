@@ -22,13 +22,15 @@ public class PotatoMine extends Plant{
     }
 
     public void explode() throws PoobVsZombiesException {
-        for (int j = 0; j < poobVsZombies.getBoard()[x].length; j++) {
-            if (poobVsZombies.getBoard()[x][j] instanceof Zombie) {
-                Zombie zombie = (Zombie) poobVsZombies.getBoard()[x][j];
-                zombie.takeDamage(damage);
-                poobVsZombies.removeThing(this);
-            }
+        if (poobVsZombies.getBoard()[x][y+1] instanceof Zombie) {
+            Zombie zombie = (Zombie) poobVsZombies.getBoard()[x][y+1];
+            zombie.takeDamage(damage);
+            poobVsZombies.removeThing(this);
         }
+    }
+
+    private void isAtaccked(){
+
     }
 
     @Override

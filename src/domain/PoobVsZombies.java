@@ -21,7 +21,6 @@ public class PoobVsZombies {
     }
 
     public void setThing(int x, int y, Thing thing) throws PoobVsZombiesException {
-        if(board[x][y] != null) throw new PoobVsZombiesException(PoobVsZombiesException.OCCUPIED_SPACE);
         board[x][y] = thing;
         if(thing instanceof Zombie) {
             Zombie z = (Zombie) thing;
@@ -94,7 +93,7 @@ public class PoobVsZombies {
     }
 
     public boolean isValidMove(int newX, int newY) {
-        return newX >= 0 && newX < width && newY >= 0 && newY < height;
+        return newX >= 0 && newX < height && newY >= 0 && newY < width;
     }
 
 }

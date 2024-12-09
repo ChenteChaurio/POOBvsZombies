@@ -28,8 +28,8 @@ public class StartGUI extends JPanel {
 
     private void prepareElements() {
         try {
-            fondo = ImageIO.read(new File("resources/ImagineMenu/StartImaginePvZ.jpg"));
-            logoImage = ImageIO.read(new File("resources/ImagineMenu/Logo.png"));
+            fondo = ImageIO.read(new File("POOBvsZombies/resources/ImagineMenu/StartImaginePvZ.jpg"));
+            logoImage = ImageIO.read(new File("POOBvsZombies/resources/ImagineMenu/Logo.png"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Lo sentimos algo ha ocurrido");
         }
@@ -43,7 +43,6 @@ public class StartGUI extends JPanel {
         botonStart = new JButton("JUGAR");
         int x = width - width / 8 - 10;
         int y = height - height / 10 - 10;
-        System.out.println(width + " " + height);
         botonStart.setBounds(x, y, width/(192/17), height/(108/5));
         botonStart.setVisible(false);
         add(botonStart);
@@ -51,7 +50,7 @@ public class StartGUI extends JPanel {
 
     private void playBackgroundMusic() {
         try {
-            File audioFile = new File("resources/MusicMenu/IntroTheme.wav");
+            File audioFile = new File("POOBvsZombies/resources/MusicMenu/IntroTheme.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
             clip.open(audioStream);

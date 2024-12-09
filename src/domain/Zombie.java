@@ -5,9 +5,10 @@ abstract class Zombie implements Thing {
     protected int speed;
     protected boolean alive = true;
     protected int x, y;
+    protected int damage = 100;
     protected PoobVsZombies poobVsZombies;
     protected static final int COOLDOWN = 2500;
-    protected long lastShotTime;
+    protected long lastMoveTime = 0;
     protected static final long ATTACK_COOLDOWN = 500;
     protected long lastAttackTime = 0;
     protected int cost;
@@ -20,7 +21,7 @@ abstract class Zombie implements Thing {
 
     public abstract void move() throws PoobVsZombiesException;
 
-    public abstract void attack(Plant plant);
+    public abstract void attack();
 
     @Override
     public void takeDamage(int damage) {

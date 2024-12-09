@@ -5,7 +5,7 @@ public class Pea {
     private int y;
     private int damage = 20;
     private static final int COOLDOWN = 400;
-    private long lastShotTime;
+    private long lastShotTime = System.currentTimeMillis();
 
 
     public Pea(int x, int y) {
@@ -20,12 +20,13 @@ public class Pea {
 
 
     public boolean checkCollision(Zombie zombie) {
-        return this.x == zombie.getX() && this.y == zombie.getY();
+        return this.x == zombie.getX() && this.y == zombie.getY()|| this.x == zombie.getX() && this.y-1 == zombie.getY();
     }
 
 
     public void update() {
         long currentTime = System.currentTimeMillis();
+        System.out.println(currentTime - lastShotTime);
         if ((currentTime - lastShotTime) >= COOLDOWN) {
             move();
             lastShotTime = currentTime;
