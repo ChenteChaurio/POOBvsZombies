@@ -15,11 +15,17 @@ public class PoobVsZombies {
     public ArrayList<Plant> plantsToRemove = new ArrayList<>();
     private ArrayList<Pea> peas = new ArrayList<>();
 
+    /**
+     * Constructor of the main Game
+     */
     public PoobVsZombies() {
         loadGame = true;
         createCompleteMatriz();
     }
 
+    /**
+     * Fills the matrix and turns it into a matrix of matrices
+     */
     private void createCompleteMatriz() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -33,6 +39,13 @@ public class PoobVsZombies {
         return board;
     }
 
+    /**
+     * Set a thing in a position of the board
+     * @param x the X position
+     * @param y the Y position
+     * @param thing the thing to set
+     * @throws PoobVsZombiesException
+     */
     public void setThing(int x, int y, Thing thing) throws PoobVsZombiesException {
         if (thing == null) throw new PoobVsZombiesException(PoobVsZombiesException.NULL_OBJECT);
         if(containsPlant(x,y)) throw new PoobVsZombiesException(PoobVsZombiesException.PLANT_IN_SPACE);
@@ -45,6 +58,12 @@ public class PoobVsZombies {
     }
 
 
+    /**
+     * Checks if there is a plant in the position
+     * @param x the position in x
+     * @param y the position in y
+     * @return boolean
+     */
     private boolean containsPlant(int x, int y) {
         for (Thing thing : board[x][y]) {
             if (thing instanceof Plant) {
@@ -62,6 +81,9 @@ public class PoobVsZombies {
         return peas;
     }
 
+    /**
+     * Update all peas that are in the matrix
+     */
     public void updatePeas() {
         Iterator<Pea> peaIterator = peas.iterator();
         while (peaIterator.hasNext()) {
@@ -73,6 +95,10 @@ public class PoobVsZombies {
         }
     }
 
+    /**
+     * Update all Zombies that are in the matrix
+     * @throws PoobVsZombiesException
+     */
     public void updateZombies() throws PoobVsZombiesException {
 
         Iterator<Zombie> zombieIterator = zombies.iterator();
@@ -90,6 +116,10 @@ public class PoobVsZombies {
     }
 
 
+    /**
+     * Update all Plants that are in the matrix
+     * @throws PoobVsZombiesException
+     */
     public void updatePlants() throws PoobVsZombiesException {
         Iterator<Plant> plantIterator = plants.iterator();
         ArrayList<Plant> plantsToRemove = new ArrayList<>();
@@ -104,19 +134,36 @@ public class PoobVsZombies {
         removeMarkedThings();
     }
 
+    /**
+     * Auxiliary method to move zombies from the array without generating exceptions.
+     * @param zombie the zombie to move
+     */
     public void addZombieToMove(Zombie zombie){
         zombiesToMove.add(zombie);
     }
 
+    /**
+     * Auxiliary method to remove zombies from the array without generating exceptions.
+     * @param zombie the zombie to remove
+     */
     public void addZombieToRemove(Zombie zombie) {
-        zombiesToRemove.add(zombie);  // Marcar el zombie para eliminación
+        zombiesToRemove.add(zombie);
     }
 
+    /**
+     * Auxiliary method to remove plants from the array without generating exceptions.
+     * @param plant the plant to remove
+     */
     public void addPlantToRemove(Plant plant) {
-        plantsToRemove.add(plant);  // Marcar la planta para eliminación
+        plantsToRemove.add(plant);
     }
 
 
+    /**
+     * Checks the collision between a pea and the possible zombies in the matrix
+     * @param pea the pea to be verified
+     * @return
+     */
     private boolean checkPeaCollision(Pea pea) {
         for (int j = 0; j < board[pea.getX()].length; j++) {
             for(Thing things : board[pea.getX()][j]){
@@ -132,6 +179,10 @@ public class PoobVsZombies {
         return false;
     }
 
+    /**
+     * Auxiliary method moving zombies
+     * @throws PoobVsZombiesException
+     */
     private void moveZombies() throws PoobVsZombiesException {
         for (Zombie zombie : zombiesToMove) {
             int targetX = zombie.getX();
@@ -147,6 +198,13 @@ public class PoobVsZombies {
     }
 
 
+    /**
+     * Method to remove a thing from the matrix
+     * @param x the X position
+     * @param y the Y position
+     * @param thing the Thing to remove
+     * @throws PoobVsZombiesException
+     */
     public void removeThing(int x, int y, Thing thing) throws PoobVsZombiesException {
         if (thing == null) throw new PoobVsZombiesException(PoobVsZombiesException.NULL_OBJECT);
         if (thing instanceof Zombie) {
@@ -172,6 +230,10 @@ public class PoobVsZombies {
         board[x][y].remove(thing);
     }
 
+    /**
+     * Auxiliary method to remove things without causing exceptions
+     * @throws PoobVsZombiesException
+     */
     public void removeMarkedThings() throws PoobVsZombiesException {
         for (Zombie zombie : zombiesToRemove) {
             removeThing(zombie.getX(), zombie.getY(), zombie);
@@ -184,6 +246,12 @@ public class PoobVsZombies {
         plantsToRemove.clear();
     }
 
+    /**
+     * Check if the movement is valid
+     * @param newX the newX position
+     * @param newY the newY position
+     * @return boolean
+     */
     public boolean isValidMove(int newX, int newY) {
         return newX >= 0 && newX < height && newY >= 0 && newY < width;
     }

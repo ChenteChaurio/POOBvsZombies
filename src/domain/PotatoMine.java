@@ -7,6 +7,12 @@ public class PotatoMine extends Plant{
     private int damage;
     private int explosiveHealth = 101;
 
+    /**
+     * The constructor of PotatoMine Plant
+     * @param x the position in x
+     * @param y the position in y
+     * @param poobVsZombies the mainGame
+     */
     public PotatoMine(int x, int y,PoobVsZombies poobVsZombies) {
         super(x, y, poobVsZombies);
         this.cost = 25;
@@ -14,6 +20,10 @@ public class PotatoMine extends Plant{
         this.active = false;
     }
 
+    /**
+     * The action to be taken (in this case the PotatoMine activates
+     * and explodes under the given conditions)
+     */
     @Override
     public void act() throws PoobVsZombiesException {
         if(active){
@@ -23,7 +33,10 @@ public class PotatoMine extends Plant{
         }
     }
 
-    public void explode() throws PoobVsZombiesException {
+    /**
+     * The PotatoMine explodes in case the zombie gets to it
+     */
+    public void explode()  {
        if (health < Integer.MAX_VALUE) {
            if(!poobVsZombies.getBoard()[x][y+1].isEmpty()){
                 Zombie zombie = (Zombie) poobVsZombies.getBoard()[x][y+1].getFirst();
@@ -34,7 +47,9 @@ public class PotatoMine extends Plant{
     }
 
 
-
+    /**
+     * Method that updates the status of the plant every moment
+     */
     @Override
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){

@@ -7,6 +7,8 @@ abstract class Plant implements Thing{
     protected int x, y;
     protected PoobVsZombies poobVsZombies;
 
+
+
     public Plant(int x, int y,PoobVsZombies poobVsZombies){
         this.x = x;
         this.y = y;
