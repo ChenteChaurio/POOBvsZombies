@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -23,8 +24,8 @@ public class PoobVsZombiesGUI extends JFrame {
         int height = screenSize.height - insets.top - insets.bottom;
         setSize(width, height);
         setLocation(0, 0);
-        setUndecorated(true);
-        setResizable(false);
+        setUndecorated(false);
+        setResizable(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         cardLayout = new CardLayout();
@@ -36,6 +37,19 @@ public class PoobVsZombiesGUI extends JFrame {
     private void prepareElementsStart(){
         StartGUI startGUI = new StartGUI(this);
         mainPanel.add(startGUI, "Start");
+
+        MenuGUI menuGUI = new MenuGUI(this);
+        mainPanel.add(menuGUI, "Menu");
+
+        ModosGUI modosGUI = new ModosGUI(this);
+        mainPanel.add(modosGUI, "Modos");
+
+        SeleccionPlantasGUI seleccionPlantasGUI = new SeleccionPlantasGUI(this);
+        mainPanel.add(seleccionPlantasGUI, "SeleccionPlantas");
+
+        TableroGUI tableroGUI = new TableroGUI(new PoobVsZombies());
+        mainPanel.add(tableroGUI, "Tablero");
+
     }
 
     private void prepareActions(){
