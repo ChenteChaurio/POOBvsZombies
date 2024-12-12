@@ -17,6 +17,12 @@ public class Sun {
         this.value = value;
     }
 
+
+    public void update(){
+
+    }
+
+
     public int getX() {
         return x;
     }

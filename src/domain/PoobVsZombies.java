@@ -7,6 +7,8 @@ public class PoobVsZombies {
     public static int width = 10;
     public static int height = 5;
     private ArrayList<Thing>[][] board = new ArrayList[height][width];
+    private PlantPlayer player1;
+    private PlantPlayer player2;
     private boolean loadGame;
     public ArrayList<Zombie> zombies = new ArrayList<>();
     public ArrayList<Zombie> zombiesToRemove = new ArrayList<>();
@@ -14,6 +16,7 @@ public class PoobVsZombies {
     public ArrayList<Plant> plants = new ArrayList<>();
     public ArrayList<Plant> plantsToRemove = new ArrayList<>();
     private ArrayList<Pea> peas = new ArrayList<>();
+    private ArrayList<LawnMover> lawnMovers = new ArrayList<>();
 
     /**
      * Constructor of the main Game
@@ -54,6 +57,8 @@ public class PoobVsZombies {
             zombies.add((Zombie) thing);
         } else if (thing instanceof Plant) {
             plants.add((Plant) thing);
+        } else if (thing instanceof LawnMover) {
+            lawnMovers.add((LawnMover) thing);
         }
     }
 
@@ -81,10 +86,22 @@ public class PoobVsZombies {
         return peas;
     }
 
+
+    private void updateLawnMover() throws PoobVsZombiesException {
+        Iterator<LawnMover> it = lawnMovers.iterator();
+        while(it.hasNext()){
+            LawnMover mover = it.next();
+            mover.update();
+            if(!mover.isAlive()){
+                it.remove();
+            }
+        }
+    }
+
     /**
      * Update all peas that are in the matrix
      */
-    public void updatePeas() {
+    private void updatePeas() {
         Iterator<Pea> peaIterator = peas.iterator();
         while (peaIterator.hasNext()) {
             Pea pea = peaIterator.next();

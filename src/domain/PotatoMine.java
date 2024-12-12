@@ -25,7 +25,7 @@ public class PotatoMine extends Plant{
      * and explodes under the given conditions)
      */
     @Override
-    public void act() throws PoobVsZombiesException {
+    public void act()  {
         if(active){
             health = explosiveHealth;
             damage = Integer.MAX_VALUE;

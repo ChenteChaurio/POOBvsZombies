@@ -47,7 +47,7 @@ public class Prueba_Main {
                 System.out.println();
                 System.out.println();
                 game.updatePlants();
-                game.updatePeas();
+                //game.updatePeas();
                 game.updateZombies();
                 elapsedTime++;
 

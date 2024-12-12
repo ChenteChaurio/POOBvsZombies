@@ -15,7 +15,7 @@ abstract class Plant implements Thing{
         this.poobVsZombies = poobVsZombies;
     }
 
-    public abstract void act() throws PoobVsZombiesException;
+    public abstract void act() ;
 
     @Override
     public void takeDamage(int damage) {
@@ -40,6 +40,10 @@ abstract class Plant implements Thing{
 
     public int getHealth(){
         return health;
+    }
+
+    public int getCost(){
+        return cost;
     }
 
 }
