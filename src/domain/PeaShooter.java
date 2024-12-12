@@ -38,7 +38,9 @@ public class PeaShooter extends Plant {
     @Override
     public void act() {
         long currentTime = System.currentTimeMillis();
+
         if (modeAttack() && (currentTime - lastShotTime) >= COOLDOWN) {
+
             Pea pea = new Pea(x, y+1);
             poobVsZombies.addPea(pea);
             lastShotTime = currentTime;

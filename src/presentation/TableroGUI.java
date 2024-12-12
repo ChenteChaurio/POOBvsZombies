@@ -147,7 +147,7 @@ public class TableroGUI extends JPanel {
                 try {
                     PeaShooter peaShooter = new PeaShooter(x, y, game);
                     game.setThing(x, y, peaShooter);
-                    animatePeashooter(buttons[x][y], x, y);
+                    animatePeashooter(x, y);
                     buttons[x][y].setText("P");
                     isPeaShooterSelected = false;
                 } catch (PoobVsZombiesException ex) {
@@ -157,6 +157,7 @@ public class TableroGUI extends JPanel {
                 try {
                     Sunflower sunflower = new Sunflower(x, y, game);
                     game.setThing(x, y, sunflower);
+                    animateSunFlower(x, y);
                     buttons[x][y].setText("S");
                     isSunflowerSelected = false;
                 } catch (PoobVsZombiesException ex) {
@@ -166,6 +167,7 @@ public class TableroGUI extends JPanel {
                 try {
                     PotatoMine potatoMine = new PotatoMine(x, y, game);
                     game.setThing(x, y, potatoMine);
+                    animatePotatomine(x, y);
                     buttons[x][y].setText("B");
                     isPotatoMineSelected = false;
 
@@ -176,6 +178,7 @@ public class TableroGUI extends JPanel {
                 try{
                     Wallnut wallnut = new Wallnut(x, y, game);
                     game.setThing(x, y, wallnut);
+                    animateWallnut(x, y);
                     buttons[x][y].setText("W");
                     isWallnutSelected = false;
                 }catch (PoobVsZombiesException ex){
@@ -214,34 +217,32 @@ public class TableroGUI extends JPanel {
         }
     }
 
-    private void animatePeashooter(JButton button, int x, int y) {
-        Timer animationTimer = new Timer(200, null); // 200ms entre frames
-        int[] frameNumbers = {1, 2, 3, 4, 5, 6, 7, 8}; // Números de frames
-        final int[] currentFrame = {0}; // Índice del frame actual
 
-        ActionListener frameAnimation = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    // Cargar imagen del frame actual
-                    Image frame = ImageIO.read(new File(
-                            "POOBvsZombies/resources/Plantas/Peashooter/" +
-                                    frameNumbers[currentFrame[0]] + ".png"
-                    ));
+    private void animatePeashooter(int x, int y) {
+        PeaShooterA peaShooterAnimation = new PeaShooterA(x, y, this, game);
+        PeaA peaProjectile = new PeaA(x, y, this, game);
+    }
 
-                    // Establecer icono sin escalar
-                    button.setIcon(new ImageIcon(frame));
+    private void animateSunFlower(int x, int y) {
+        SunFlowerA sunFlowerAnimation = new SunFlowerA(x, y, this, game);
+    }
 
-                    // Reiniciar el índice de frame en un bucle
-                    currentFrame[0] = (currentFrame[0] + 1) % frameNumbers.length;
+    private void animateWallnut(int x, int y) {
+        WallnutA animateWallNutAnimation = new WallnutA(x, y, this, game);
+    }
 
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
-        animationTimer.addActionListener(frameAnimation);
-        animationTimer.start();
+    private void animatePotatomine(int x, int y) {
+        PotatoMineA aniamtePotatoMineAnimation = new PotatoMineA(x, y, this, game);
+    }
+
+
+
+    public JButton[][] getButtons() {
+        return buttons;
+    }
+
+    public JPanel getButtonsPanel() {
+        return buttonsPanel;
     }
 
     private void updateButton(int x, int y) {
