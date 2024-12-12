@@ -54,7 +54,10 @@ public class LawnMover implements Thing{
 
     @Override
     public boolean isAlive() {
-        return false;
+        if(y>poobVsZombies.getBoard()[0].length){
+            return false;
+        }
+        return true;
     }
 
     @Override

@@ -74,4 +74,8 @@ abstract class Zombie implements Thing {
         return health;
     }
 
+    public int getCost(){
+        return cost;
+    }
+
 }
