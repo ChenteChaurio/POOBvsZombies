@@ -18,7 +18,7 @@ public class RepeaterA {
     private PoobVsZombies game;
     private int x, y;
 
-    // Variables para las animaciones de Threepeater y Gatling
+
     private int evolutionStage; // 0: Repeater, 1: Threepeater, 2: Gatling
     private int[] threepeaterIdleFrameNumbers;
     private int[] gatlingIdleFrameNumbers;
@@ -34,10 +34,9 @@ public class RepeaterA {
         idleFrameNumbers = new int[]{1, 2, 3, 4, 5};
         attackFrameNumbers = new int[]{1, 2};
 
-        // Inicializar las animaciones de Threepeater y Gatling
         threepeaterIdleFrameNumbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
-        gatlingIdleFrameNumbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
         threepeaterAttackFrameNumbers = new int[]{1, 2};
+        gatlingIdleFrameNumbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
         gatlingAttackFrameNumbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
 
         initializeAnimation();
@@ -146,13 +145,13 @@ public class RepeaterA {
     }
 
     public void evolveToThreepeater() {
-        evolutionStage = 1; // Cambiar a Threepeater
-        animateIdle(); // Iniciar animación idle de Threepeater
+        evolutionStage = 1;
+        animateIdle();
     }
 
     public void evolveToGatling() {
-        evolutionStage = 2; // Cambiar a Gatling
-        animateIdle(); // Iniciar animación idle de Gatling
+        evolutionStage = 2;
+        animateIdle();
     }
 
     public void stopAnimation() {

@@ -197,14 +197,15 @@ public class TableroGUI extends JPanel {
                 }catch (PoobVsZombiesException ex){
                     ex.printStackTrace();
                 }
-            }else if (isRepeaterSelected){
-                try{
+            }else if (isRepeaterSelected) {
+                try {
                     Repeater repeater = new Repeater(x, y, game);
+                    RepeaterA repeaterAnimation = new RepeaterA(x, y, TableroGUI.this, game);
+                    repeater.setRepeaterAnimation(repeaterAnimation); // Asignar la animación al Repeater
                     game.setThing(x, y, repeater);
-                    animateRepeater(x, y);
                     buttons[x][y].setText("R");
-                    isWallnutSelected = false;
-                }catch (PoobVsZombiesException ex){
+                    isRepeaterSelected = false;
+                } catch (PoobVsZombiesException ex) {
                     ex.printStackTrace();
                 }
                 updateButton(x, y);

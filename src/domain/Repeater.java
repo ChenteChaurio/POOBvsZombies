@@ -53,6 +53,16 @@ public class Repeater extends Plant {
             Pea pea = new Pea(x, y + 1);
             poobVsZombies.addPea(pea);
             lastShotTime = currentTime;
+
+            // Animación de ataque
+            if (repeaterAnimation != null) {
+                repeaterAnimation.animateAttack();
+            }
+        } else {
+            // Animación idle
+            if (repeaterAnimation != null) {
+                repeaterAnimation.animateIdle();
+            }
         }
     }
 
@@ -61,6 +71,9 @@ public class Repeater extends Plant {
         evolutionStartTime = System.currentTimeMillis();
 
         //animation
+        if (repeaterAnimation != null) {
+            repeaterAnimation.evolveToThreepeater();
+        }
     }
 
     private void evolveToGatling() {
@@ -68,6 +81,9 @@ public class Repeater extends Plant {
         evolutionStartTime = System.currentTimeMillis();
 
         //animation
+        if (repeaterAnimation != null) {
+            repeaterAnimation.evolveToGatling();
+        }
     }
 
     private int getCooldown() {
@@ -83,8 +99,13 @@ public class Repeater extends Plant {
     public void update() throws PoobVsZombiesException {
         if (!isAlive()) {
             poobVsZombies.addPlantToRemove(this);
+
+            if (repeaterAnimation != null) {
+                repeaterAnimation.stopAnimation();
+            }
             return;
         }
         act();
     }
+
 }
