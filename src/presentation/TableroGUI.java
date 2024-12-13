@@ -23,7 +23,7 @@ public class TableroGUI extends JPanel {
     private boolean isSunflowerSelected = false;
     private boolean isPotatoMineSelected = false;
     private boolean isWallnutSelected = false;
-    private boolean isECIPlantSelected = false;
+    private boolean isRepeaterSelected = false;
     private Image[] plantImages;
 
     public TableroGUI(PoobVsZombies game) {
@@ -42,11 +42,12 @@ public class TableroGUI extends JPanel {
         try {
             fondo = ImageIO.read(new File("POOBvsZombies/resources/tablero.jpg"));
 
-            plantImages = new Image[4]; // Cambia el tamaño según la cantidad de plantas
+            plantImages = new Image[5]; // Cambia el tamaño según la cantidad de plantas
             plantImages[0] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Sunflower/icono.png"));
             plantImages[1] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Peashooter/icono.png"));
             plantImages[2] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Potatobomb/icono.png"));
             plantImages[3] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Wallnut/icono.png"));
+            plantImages[4] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Repeater/icono.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -196,7 +197,16 @@ public class TableroGUI extends JPanel {
                 }catch (PoobVsZombiesException ex){
                     ex.printStackTrace();
                 }
-            } else   {
+            }else if (isRepeaterSelected){
+                try{
+                    Repeater repeater = new Repeater(x, y, game);
+                    game.setThing(x, y, repeater);
+                    animateRepeater(x, y);
+                    buttons[x][y].setText("R");
+                    isWallnutSelected = false;
+                }catch (PoobVsZombiesException ex){
+                    ex.printStackTrace();
+                }
                 updateButton(x, y);
             }
         }
@@ -223,7 +233,10 @@ public class TableroGUI extends JPanel {
             } else if (index == 3) {
                 System.out.println("Wallnut seleccioando.");
                 isWallnutSelected = true;
-            }else{
+            }else if (index == 4){
+                System.out.println("Repeater seleccioando.");
+                isRepeaterSelected = true;
+            }else {
                 System.out.println("Botón extra clickeado: " + e.getActionCommand());
             }
         }
@@ -245,6 +258,11 @@ public class TableroGUI extends JPanel {
 
     private void animatePotatomine(int x, int y) {
         PotatoMineA aniamtePotatoMineAnimation = new PotatoMineA(x, y, this, game);
+    }
+
+    private void animateRepeater(int x, int y) {
+        RepeaterA animateRepeaterAnimation = new RepeaterA(x, y, this, game);
+
     }
 
 

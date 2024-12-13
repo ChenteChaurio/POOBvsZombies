@@ -24,8 +24,8 @@ public class PoobVsZombiesGUI extends JFrame {
         int height = screenSize.height - insets.top - insets.bottom;
         setSize(width, height);
         setLocation(0, 0);
-        setUndecorated(false);
-        setResizable(true);
+        setUndecorated(true);
+        setResizable(false);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         cardLayout = new CardLayout();
