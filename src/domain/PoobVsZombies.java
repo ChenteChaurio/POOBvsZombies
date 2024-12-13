@@ -9,6 +9,7 @@ public class PoobVsZombies {
     private ArrayList<Thing>[][] board = new ArrayList[height][width];
     private PlantPlayer player1;
     private PlantPlayer player2;
+    private Integer time;
     private boolean loadGame;
     public ArrayList<Zombie> zombies = new ArrayList<>();
     public ArrayList<Zombie> zombiesToRemove = new ArrayList<>();
@@ -23,9 +24,11 @@ public class PoobVsZombies {
     /**
      * Constructor of the main Game
      */
-    public PoobVsZombies() {
+    public PoobVsZombies(Integer time) throws PoobVsZombiesException {
         loadGame = true;
         createCompleteMatriz();
+        this.time = time;
+        start();
     }
 
     /**
@@ -36,6 +39,16 @@ public class PoobVsZombies {
             for (int j = 0; j < width; j++) {
                 board[i][j] = new ArrayList<Thing>();
             }
+        }
+    }
+
+    private void start() throws PoobVsZombiesException {
+        while (loadGame) {
+            updateLawnMover();
+            updatePlants();
+            updatePeas();
+            updateZombies();
+            checkLoseGame();
         }
     }
 
@@ -312,5 +325,20 @@ public class PoobVsZombies {
     public boolean isValidMove(int newX, int newY) {
         return newX >= 0 && newX < height && newY >= 0 && newY < width;
     }
+
+
+    private void checkLoseGame() {
+        for (Zombie zombie : zombies) {
+            if (zombie.getX() == 0 && zombie.isAlive()) {
+                loadGame = false;
+            }
+        }
+
+        if (time <= 0) {
+            loadGame = false;
+        }
+    }
+
+
 
 }
