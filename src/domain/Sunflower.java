@@ -23,6 +23,7 @@ public class Sunflower extends Plant{
     @Override
     public void act() {
         long currentTime = System.currentTimeMillis();
+
         if (currentTime - lastShotTime > COOLDOWN) {
             Sun sun = new Sun(x,y,25);
             lastShotTime = currentTime;

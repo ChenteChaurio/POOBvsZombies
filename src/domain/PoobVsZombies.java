@@ -16,7 +16,9 @@ public class PoobVsZombies {
     public ArrayList<Plant> plants = new ArrayList<>();
     public ArrayList<Plant> plantsToRemove = new ArrayList<>();
     private ArrayList<Pea> peas = new ArrayList<>();
-    private ArrayList<LawnMover> lawnMovers = new ArrayList<>();
+    public ArrayList<LawnMover> lawnMovers = new ArrayList<>();
+    private ArrayList<LawnMover> lawnMoversToRemove = new ArrayList<>();
+    private ArrayList<LawnMover> lawnMoversToMove = new ArrayList<>();
 
     /**
      * Constructor of the main Game
@@ -87,7 +89,7 @@ public class PoobVsZombies {
     }
 
 
-    private void updateLawnMover() throws PoobVsZombiesException {
+    public void updateLawnMover() throws PoobVsZombiesException {
         Iterator<LawnMover> it = lawnMovers.iterator();
         while(it.hasNext()){
             LawnMover mover = it.next();
@@ -96,12 +98,15 @@ public class PoobVsZombies {
                 it.remove();
             }
         }
+        moveLawnMovers();
+        lawnMovers.removeAll(lawnMoversToRemove);
+        removeMarkedThings();
     }
 
     /**
      * Update all peas that are in the matrix
      */
-    private void updatePeas() {
+    void updatePeas() {
         Iterator<Pea> peaIterator = peas.iterator();
         while (peaIterator.hasNext()) {
             Pea pea = peaIterator.next();
@@ -159,12 +164,20 @@ public class PoobVsZombies {
         zombiesToMove.add(zombie);
     }
 
+    public void addLawnMoverToMove(LawnMover mover){
+        lawnMoversToMove.add(mover);
+    }
+
     /**
      * Auxiliary method to remove zombies from the array without generating exceptions.
      * @param zombie the zombie to remove
      */
     public void addZombieToRemove(Zombie zombie) {
         zombiesToRemove.add(zombie);
+    }
+
+    public void addLawnMoverToRemove(LawnMover lawnMover) {
+        lawnMoversToRemove.add(lawnMover);
     }
 
     /**
@@ -214,6 +227,20 @@ public class PoobVsZombies {
         zombiesToMove.clear();
     }
 
+    private void moveLawnMovers(){
+        for (LawnMover mover : lawnMoversToMove) {
+            int targetX = mover.getX();
+            int targetY = mover.getY()+1;
+            if (isValidMove(targetX, targetY)) {
+                board[targetX][targetY].add(mover);
+                board[mover.getX()][mover.getY()].remove(mover);
+                mover.setX(targetX);
+                mover.setY(targetY);
+            }
+        }
+        lawnMoversToMove.clear();
+    }
+
 
     /**
      * Method to remove a thing from the matrix
@@ -243,6 +270,15 @@ public class PoobVsZombies {
                     break;
                 }
             }
+        } else if (thing instanceof LawnMover) {
+            Iterator<LawnMover> lawnMoverIterator = lawnMovers.iterator();
+            while (lawnMoverIterator.hasNext()) {
+                LawnMover lawnMover = lawnMoverIterator.next();
+                if (lawnMover.equals(thing)) {
+                    lawnMoverIterator.remove();
+                    break;
+                }
+            }
         }
         board[x][y].remove(thing);
     }
@@ -259,6 +295,10 @@ public class PoobVsZombies {
         for (Plant plant : plantsToRemove) {
             removeThing(plant.getX(), plant.getY(), plant);
         }
+        for (LawnMover lawnMover : lawnMoversToRemove) {
+            removeThing(lawnMover.getX(), lawnMover.getY(), lawnMover);
+        }
+        lawnMoversToRemove.clear();
         zombiesToRemove.clear();
         plantsToRemove.clear();
     }

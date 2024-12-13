@@ -8,12 +8,18 @@ public class Prueba_Main {
         int elapsedTime = 0;
         //PeaShooter peaShooter = new PeaShooter(0, 2, game);
         //game.setThing(0, 2, peaShooter);
-        //PeaShooter peaShooter1 = new PeaShooter(0, 1, game);
-        //game.setThing(0, 1, peaShooter1);
-        NormalZombie normalZombie = new NormalZombie(0, 5, game);
-        game.setThing(0, 5, normalZombie);
-        PeaShooter peaShooter2 = new PeaShooter(0, 5, game);
-        game.setThing(0, 5, peaShooter2);
+        LawnMover lawnMover = new LawnMover(0, 0, game);
+        game.setThing(0, 0, lawnMover);
+        NormalZombie normalZombie = new NormalZombie(0, 2, game);
+        game.setThing(0, 2, normalZombie);
+        NormalZombie normalZombie1 = new NormalZombie(0, 3, game);
+        game.setThing(0, 3, normalZombie1);
+        NormalZombie normalZombie2 = new NormalZombie(0, 4, game);
+        game.setThing(0, 4, normalZombie2);
+        NormalZombie normalZombie3 = new NormalZombie(0, 4, game);
+        game.setThing(0, 4, normalZombie3);
+//        PeaShooter peaShooter2 = new PeaShooter(0, 5, game);
+//        game.setThing(0, 5, peaShooter2);
 
         for (int turn = 0; turn < 500; turn++) {
             System.out.println("Turno: " + turn);
@@ -29,6 +35,9 @@ public class Prueba_Main {
             for (Pea pea : game.getPeas()) {
                 System.out.println("Pea en (" + pea.getX() + ", " + pea.getY() + ")");
 
+            }
+            for (LawnMover mover :game.lawnMovers){
+                System.out.println("Mover en (" + mover.getX() + ", " + mover.getY() + ")" + mover.isAlive()+" "+mover.modeAtack()) ;
             }
             int row = 0;
             for (int col = 0; col < game.getBoard()[0].length; col++) {
@@ -46,8 +55,9 @@ public class Prueba_Main {
             System.out.println();
                 System.out.println();
                 System.out.println();
+                game.updateLawnMover();
                 game.updatePlants();
-                //game.updatePeas();
+                game.updatePeas();
                 game.updateZombies();
                 elapsedTime++;
 
