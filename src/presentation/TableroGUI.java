@@ -24,6 +24,7 @@ public class TableroGUI extends JPanel {
     private boolean isPotatoMineSelected = false;
     private boolean isWallnutSelected = false;
     private boolean isECIPlantSelected = false;
+    private Image[] plantImages;
 
     public TableroGUI(PoobVsZombies game) {
         this.game = game;
@@ -40,6 +41,12 @@ public class TableroGUI extends JPanel {
     private void prepareElements() {
         try {
             fondo = ImageIO.read(new File("POOBvsZombies/resources/tablero.jpg"));
+
+            plantImages = new Image[4]; // Cambia el tamaño según la cantidad de plantas
+            plantImages[0] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Sunflower/icono.png"));
+            plantImages[1] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Peashooter/icono.png"));
+            plantImages[2] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Potatobomb/icono.png"));
+            plantImages[3] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Wallnut/icono.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,6 +109,11 @@ public class TableroGUI extends JPanel {
             extraButtons[i].setContentAreaFilled(false);
             //button.setBorderPainted(false);
             extraButtons[i].setVisible(true);
+
+            if (i < plantImages.length) {
+                extraButtons[i].setIcon(new ImageIcon(plantImages[i]));
+            }
+
             gbc.gridx = 0;
             gbc.gridy = i;
             extraButtons[i].addActionListener(new ExtraButtonClickListener(i));//indice del boton
@@ -119,7 +131,7 @@ public class TableroGUI extends JPanel {
         //ajsute tablero
         buttonsPanel.setBounds((int)(panelWidth*.9)/8, (int)(panelHeight*.95)/7, (int)(panelWidth*1.2)/2, (int)(panelHeight*1.64)/2);
         //ajuste plantas
-        extraButtonsPanel.setBounds((int)(panelWidth*.2)/8, (int)(panelHeight*1.1)/7, (int)(panelWidth*.3)/4, (int)(panelHeight*1.5)/2);
+        extraButtonsPanel.setBounds((int)(panelWidth*.01)/8, (int)(panelHeight*1.1)/7, (int)(panelWidth*.4)/4, (int)(panelHeight*1.1)/2);
 
         buttonsPanel.revalidate();
         buttonsPanel.repaint();
