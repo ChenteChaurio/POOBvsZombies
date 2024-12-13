@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Prueba_Main {
     public static void main(String[] args) throws PoobVsZombiesException {
-        PoobVsZombies game = new PoobVsZombies();
+        PoobVsZombies game = new PoobVsZombies(null);
         int elapsedTime = 0;
         //PeaShooter peaShooter = new PeaShooter(0, 2, game);
         //game.setThing(0, 2, peaShooter);

@@ -3,24 +3,6 @@ package domain;
 public class PlantPlayer extends Player {
     public PlantPlayer(String name, String type, PoobVsZombies poobVsZombies) {
         super(name,type,poobVsZombies);
-
-    }
-
-
-    private void createScore(){
-        score = resource;
-        if(type.equals("Zombie")){
-            for(int i=0;i<poobVsZombies.getBoard().length;i++){
-                for (int j = 0; j < poobVsZombies.getBoard()[i].length; j++) {
-                    for(Thing thing : poobVsZombies.getBoard()[i][j]){
-                        if (thing instanceof Zombie){
-                            Zombie zombie = (Zombie) thing;
-                            score += zombie.getCost();
-                        }
-                    }
-                }
-            }
-        }
     }
 
 
@@ -42,11 +24,18 @@ public class PlantPlayer extends Player {
 
     @Override
     void play(int x,int y,Thing thing) throws PoobVsZombiesException {
-        if(x == 0) throw new PoobVsZombiesException(PoobVsZombiesException.LAWN_MOVER_SPACE);
-        if(x == 9) throw new PoobVsZombiesException(PoobVsZombiesException.ZOMBIE_SPACE);
-        if(thing instanceof Plant){
-            Plant plant = (Plant) thing;
-            poobVsZombies.setThing(x,y,thing);
+        if(y == 0) throw new PoobVsZombiesException(PoobVsZombiesException.LAWN_MOVER_SPACE);
+        if(y == 9) throw new PoobVsZombiesException(PoobVsZombiesException.ZOMBIE_SPACE);
+        if(thing instanceof Plant plant){
+            poobVsZombies.setThing(x,y,plant);
+        }
+    }
+
+    public void shovel(int x,int y,Thing thing) throws PoobVsZombiesException {
+        if(y == 0) throw new PoobVsZombiesException(PoobVsZombiesException.LAWN_MOVER_SPACE);
+        if(y == 9) throw new PoobVsZombiesException(PoobVsZombiesException.ZOMBIE_SPACE);
+        if(thing instanceof Plant plant){
+            poobVsZombies.addPlantToRemove(plant);
         }
     }
 
