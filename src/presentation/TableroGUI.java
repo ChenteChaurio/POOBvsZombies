@@ -19,10 +19,13 @@ public class TableroGUI extends JPanel {
     private JPanel buttonsPanel;
     private JPanel extraButtonsPanel; // panel plantas
     private JButton[] extraButtons; // botones plantas
+    private JButton optionsButton; // noton panel de opciones
+    private JDialog optionsDialog; // opciones
     private boolean isPeaShooterSelected = false;
     private boolean isSunflowerSelected = false;
     private boolean isPotatoMineSelected = false;
     private boolean isWallnutSelected = false;
+    private boolean isECIPlantSelected = false;
     private boolean isRepeaterSelected = false;
     private Image[] plantImages;
 
@@ -47,7 +50,7 @@ public class TableroGUI extends JPanel {
             plantImages[1] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Peashooter/icono.png"));
             plantImages[2] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Potatobomb/icono.png"));
             plantImages[3] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Wallnut/icono.png"));
-            plantImages[4] = ImageIO.read(new File("POOBvsZombies/resources/plantas/Repeater/icono.png"));
+            plantImages[4] = ImageIO.read(new File("POOBvsZombies/resources/plantas/ECIplant/icono.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,6 +72,11 @@ public class TableroGUI extends JPanel {
 
         //buttonsPanel.setBounds(200, 150, 1200, 800);
         //extraButtonsPanel.setBounds(50, 150, 100, 800);
+
+        //opciones
+        optionsButton = new JButton("Opciones");
+
+        add(optionsButton);
         add(buttonsPanel);
         add(extraButtonsPanel);
     }
@@ -123,7 +131,97 @@ public class TableroGUI extends JPanel {
     }
 
     private void prepareActions() {
+        optionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openOptionsPanel();
+            }
+        });
 
+    }
+
+    private void openOptionsPanel() {
+        optionsDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Opciones", true);
+        optionsDialog.setLayout(new BorderLayout());
+        optionsDialog.setSize(400, 200);
+        optionsDialog.setLocationRelativeTo(this);
+        optionsDialog.setUndecorated(true);
+
+        BackgroundPanel backgroundPanel = new BackgroundPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridBagLayout());
+        buttonPanel.setOpaque(false);
+
+        JButton saveButton = new JButton("Guardar");
+        JButton backButton = new JButton("Volver");
+        JButton exitButton = new JButton("Salir");
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        buttonPanel.add(saveButton, gbc);
+        gbc.gridy = 1;
+        buttonPanel.add(backButton, gbc);
+        gbc.gridy = 2;
+        buttonPanel.add(exitButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        backgroundPanel.add(Box.createVerticalGlue(), gbc);
+        gbc.gridy = 1;
+        backgroundPanel.add(buttonPanel, gbc);
+        gbc.gridy = 2;
+        backgroundPanel.add(Box.createVerticalGlue(), gbc); //espaciador
+
+        optionsDialog.add(backgroundPanel, BorderLayout.CENTER);
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Juego guardado (sin funcionalidad por ahora).");
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                optionsDialog.dispose();
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((PoobVsZombiesGUI) SwingUtilities.getWindowAncestor(TableroGUI.this)).showCard("Menu");
+                optionsDialog.dispose();
+            }
+        });
+
+        optionsDialog.setVisible(true);
+    }
+
+    private class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel() {
+            try {
+                backgroundImage = ImageIO.read(new File("POOBvsZombies/resources/Pause.PNG")); // Cambia la ruta a tu imagen
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
     }
 
     private void adjustButtonPanel() {
@@ -133,6 +231,8 @@ public class TableroGUI extends JPanel {
         buttonsPanel.setBounds((int)(panelWidth*.9)/8, (int)(panelHeight*.95)/7, (int)(panelWidth*1.2)/2, (int)(panelHeight*1.64)/2);
         //ajuste plantas
         extraButtonsPanel.setBounds((int)(panelWidth*.01)/8, (int)(panelHeight*1.1)/7, (int)(panelWidth*.4)/4, (int)(panelHeight*1.1)/2);
+
+        optionsButton.setBounds((int)(panelWidth*7)/8, (int)(panelHeight*.01)/7, (int)(panelWidth*.4)/4, (int)(panelHeight*.8)/17);
 
         buttonsPanel.revalidate();
         buttonsPanel.repaint();
@@ -197,17 +297,27 @@ public class TableroGUI extends JPanel {
                 }catch (PoobVsZombiesException ex){
                     ex.printStackTrace();
                 }
-            }else if (isRepeaterSelected) {
-                try {
-                    Repeater repeater = new Repeater(x, y, game);
-                    RepeaterA repeaterAnimation = new RepeaterA(x, y, TableroGUI.this, game);
-                    repeater.setRepeaterAnimation(repeaterAnimation); // Asignar la animación al Repeater
-                    game.setThing(x, y, repeater);
-                    buttons[x][y].setText("R");
-                    isRepeaterSelected = false;
-                } catch (PoobVsZombiesException ex) {
+            }else if (isECIPlantSelected){
+                try{
+                    EciPlant eciPlant = new EciPlant(x, y, game);
+                    game.setThing(x, y, eciPlant);
+                    animateECIplant(x, y);
+                    buttons[x][y].setText("E");
+                    isECIPlantSelected = false;
+                }catch (PoobVsZombiesException ex){
                     ex.printStackTrace();
                 }
+//            }else if (isRepeaterSelected) {
+//                try {
+//                    Repeater repeater = new Repeater(x, y, game);
+//                    RepeaterA repeaterAnimation = new RepeaterA(x, y, TableroGUI.this, game);
+//                    repeater.setRepeaterAnimation(repeaterAnimation); // Asignar la animación al Repeater
+//                    game.setThing(x, y, repeater);
+//                    buttons[x][y].setText("R");
+//                    isRepeaterSelected = false;
+//                } catch (PoobVsZombiesException ex) {
+//                    ex.printStackTrace();
+//                }
                 updateButton(x, y);
             }
         }
@@ -222,12 +332,12 @@ public class TableroGUI extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (index == 0) { // Si es el primer botón
+            if (index == 0) {
                 System.out.println("Sunflower seleccionado.");
-                isSunflowerSelected = true; // Marcar que se ha seleccionado un Sunflower
-            } else if (index == 1) { // Si es el segundo botón
+                isSunflowerSelected = true;
+            } else if (index == 1) {
                 System.out.println("Peashooter seleccionado.");
-                isPeaShooterSelected = true; // Marcar que se ha seleccionado un Peashooter
+                isPeaShooterSelected = true;
             } else if (index == 2) {
                 System.out.println("PotatoMine seleccionado.");
                 isPotatoMineSelected = true;
@@ -235,8 +345,8 @@ public class TableroGUI extends JPanel {
                 System.out.println("Wallnut seleccioando.");
                 isWallnutSelected = true;
             }else if (index == 4){
-                System.out.println("Repeater seleccioando.");
-                isRepeaterSelected = true;
+                System.out.println("ECIplant seleccioando.");
+                isECIPlantSelected = true;
             }else {
                 System.out.println("Botón extra clickeado: " + e.getActionCommand());
             }
@@ -246,25 +356,69 @@ public class TableroGUI extends JPanel {
 
     private void animatePeashooter(int x, int y) {
         PeaShooterA peaShooterAnimation = new PeaShooterA(x, y, this, game);
-        PeaA peaProjectile = new PeaA(x, y, this, game);
+
+        for (Thing thing : game.getBoard()[x][y]) {
+            if (thing instanceof PeaShooter) {
+                ((PeaShooter) thing).setPeaShooterAnimation(peaShooterAnimation);
+                break;
+            }
+        }
+//        public void animatePeaProjectile() {
+//            PeaA peaProjectile = new PeaA(x, y, this, game);
+//            Pea pea = new Pea(x, y + 1);
+//            pea.setPeaAnimation(peaProjectile);
+//            game.addPea(pea);
+//        }
     }
 
     private void animateSunFlower(int x, int y) {
         SunFlowerA sunFlowerAnimation = new SunFlowerA(x, y, this, game);
+
+        for (Thing thing : game.getBoard()[x][y]) {
+            if (thing instanceof Sunflower) {
+                ((Sunflower) thing).setSunFlowerAnimation(sunFlowerAnimation);
+                break;
+            }
+        }
     }
 
     private void animateWallnut(int x, int y) {
-        WallnutA animateWallNutAnimation = new WallnutA(x, y, this, game);
+        WallnutA wallnutAnimation = new WallnutA(x, y, this, game);
+
+        for (Thing thing : game.getBoard()[x][y]) {
+            if (thing instanceof Wallnut) {
+                ((Wallnut) thing).setWallnutAnimation(wallnutAnimation);
+                break;
+            }
+        }
     }
 
     private void animatePotatomine(int x, int y) {
-        PotatoMineA aniamtePotatoMineAnimation = new PotatoMineA(x, y, this, game);
+        PotatoMineA potatoMineAnimation = new PotatoMineA(x, y, this, game);
+
+        for (Thing thing : game.getBoard()[x][y]) {
+            if (thing instanceof PotatoMine) {
+                ((PotatoMine) thing).setPotatoMineAnimation(potatoMineAnimation);
+                break;
+            }
+        }
     }
 
-    private void animateRepeater(int x, int y) {
-        RepeaterA animateRepeaterAnimation = new RepeaterA(x, y, this, game);
+    private void animateECIplant(int x, int y) {
+        ECIplantA eciPlantAnimation = new ECIplantA(x, y, this, game);
 
+        for (Thing thing : game.getBoard()[x][y]) {
+            if (thing instanceof EciPlant) {
+                ((EciPlant) thing).setEciPlantAnimation(eciPlantAnimation);
+                break;
+            }
+        }
     }
+
+//    private void animateRepeater(int x, int y) {
+//        RepeaterA animateRepeaterAnimation = new RepeaterA(x, y, this, game);
+//
+//    }
 
 
 

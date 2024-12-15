@@ -82,6 +82,14 @@ public class WallnutA {
         }
     }
 
+    public void removeLabel() {
+        if (wallnutLabel != null && parentPanel != null) {
+            parentPanel.remove(wallnutLabel);
+            parentPanel.revalidate();
+            parentPanel.repaint();
+        }
+    }
+
     public JLabel getSunFlowerLabel() {
         return wallnutLabel;
     }

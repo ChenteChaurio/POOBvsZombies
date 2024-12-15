@@ -1,6 +1,7 @@
 package presentation;
 
-import domain.*;
+import domain.PoobVsZombies;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,27 +10,27 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class SunFlowerA {
+public class ECIplantA {
     private JPanel parentPanel;
-    private JLabel sunFlowerLabel;
+    private JLabel ECIplantLabel;
     private Timer animationTimer;
     private int[] idleFrameNumbers;
     private PoobVsZombies game;
     private int x, y;
 
-    public SunFlowerA(int x, int y, JPanel parentPanel, PoobVsZombies game){
+    public ECIplantA(int x, int y, JPanel parentPanel, PoobVsZombies game){
         this.x = x;
         this.y = y;
         this.parentPanel = parentPanel;
         this.game = game;
 
-        idleFrameNumbers = new int[]{1, 2, 3, 4, 5, 6};
+        idleFrameNumbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
         initializeAnimation();
     }
 
     private void initializeAnimation(){
-        sunFlowerLabel = new JLabel();
+        ECIplantLabel = new JLabel();
 
         JButton[][] buttons = ((TableroGUI)parentPanel).getButtons();
         int buttonWidth = buttons[0][0].getWidth();
@@ -38,8 +39,8 @@ public class SunFlowerA {
         int posX = buttons[x][y].getX() + ((TableroGUI)parentPanel).getButtonsPanel().getX();
         int posY = buttons[x][y].getY() + ((TableroGUI)parentPanel).getButtonsPanel().getY();
 
-        sunFlowerLabel.setBounds(posX, posY, buttonWidth, buttonHeight);
-        parentPanel.add(sunFlowerLabel);
+        ECIplantLabel.setBounds(posX, posY, buttonWidth, buttonHeight);
+        parentPanel.add(ECIplantLabel);
 
         animateIdle();
     }
@@ -55,11 +56,11 @@ public class SunFlowerA {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Image frame = ImageIO.read(new File(
-                            "POOBvsZombies/resources/Plantas/Sunflower/" +
+                            "POOBvsZombies/resources/Plantas/ECIplant/" +
                                     idleFrameNumbers[currentFrame[0]] + ".png"
                     ));
 
-                    sunFlowerLabel.setIcon(new ImageIcon(frame));
+                    ECIplantLabel.setIcon(new ImageIcon(frame));
 
                     currentFrame[0] = (currentFrame[0] + 1) % idleFrameNumbers.length;
 
@@ -82,14 +83,14 @@ public class SunFlowerA {
     }
 
     public void removeLabel() {
-        if (sunFlowerLabel != null && parentPanel != null) {
-            parentPanel.remove(sunFlowerLabel);
+        if (ECIplantLabel != null && parentPanel != null) {
+            parentPanel.remove(ECIplantLabel);
             parentPanel.revalidate();
             parentPanel.repaint();
         }
     }
 
-    public JLabel getSunFlowerLabel() {
-        return sunFlowerLabel;
+    public JLabel getECIplantLabel() {
+        return ECIplantLabel;
     }
 }

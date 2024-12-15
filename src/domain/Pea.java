@@ -1,11 +1,16 @@
 package domain;
 
+import presentation.PeaA;
+
 public class Pea {
     private final int x;
     private int y;
     private int damage = 20;
     private static final int COOLDOWN = 400;
     private long lastShotTime = System.currentTimeMillis();
+
+    //ani
+    private PeaA peaAnimation;
 
     /**
      * The constructor of the object Pea
@@ -57,6 +62,11 @@ public class Pea {
 
     public int getY() {
         return y;
+    }
+
+    //ani
+    public void setPeaAnimation(PeaA peaAnimation) {
+        this.peaAnimation = peaAnimation;
     }
 
 }

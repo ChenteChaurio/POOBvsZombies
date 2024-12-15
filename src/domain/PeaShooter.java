@@ -1,8 +1,12 @@
 package domain;
 
+import presentation.PeaShooterA;
+
 public class PeaShooter extends Plant {
     private static final int COOLDOWN = 1500;
     private long lastShotTime = 0;
+
+    private PeaShooterA peaShooterAnimation;
 
     /**
      * The constructor of Peashooter Plant
@@ -14,6 +18,7 @@ public class PeaShooter extends Plant {
         super(x, y, poobVsZombies);
         this.cost = 100;
         this.health = 300;
+
     }
 
     /**
@@ -40,12 +45,22 @@ public class PeaShooter extends Plant {
         long currentTime = System.currentTimeMillis();
 
         if (modeAttack() && (currentTime - lastShotTime) >= COOLDOWN) {
-
             Pea pea = new Pea(x, y+1);
             poobVsZombies.addPea(pea);
             lastShotTime = currentTime;
+
+            //animation
+            if (peaShooterAnimation != null) {
+                peaShooterAnimation.animateAttack();
+            }
+        } else {
+            //idle
+            if (peaShooterAnimation != null) {
+                peaShooterAnimation.animateIdle();
+            }
         }
     }
+
 
     /**
      * Method that updates the status of the plant every moment
@@ -53,9 +68,18 @@ public class PeaShooter extends Plant {
     @Override
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
+            if (peaShooterAnimation != null) {
+                peaShooterAnimation.removeLabel();
+            }
             poobVsZombies.addPlantToRemove(this);
             return;
         }
         act();
     }
+
+    //ani
+    public void setPeaShooterAnimation(PeaShooterA peaShooterAnimation) {
+        this.peaShooterAnimation = peaShooterAnimation;
+    }
+
 }

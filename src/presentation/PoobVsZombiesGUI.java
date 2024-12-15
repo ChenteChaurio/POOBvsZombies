@@ -47,7 +47,12 @@ public class PoobVsZombiesGUI extends JFrame {
         SeleccionPlantasGUI seleccionPlantasGUI = new SeleccionPlantasGUI(this);
         mainPanel.add(seleccionPlantasGUI, "SeleccionPlantas");
 
-        TableroGUI tableroGUI = new TableroGUI(new PoobVsZombies());
+        TableroGUI tableroGUI = null;
+        try {
+            tableroGUI = new TableroGUI(new PoobVsZombies(null));
+        } catch (PoobVsZombiesException e) {
+            throw new RuntimeException(e);
+        }
         mainPanel.add(tableroGUI, "Tablero");
 
     }

@@ -1,11 +1,14 @@
 package domain;
 
+import presentation.PotatoMineA;
+
 public class PotatoMine extends Plant{
     private boolean active;
     private static final int COOLDOWN = 14000;
     private long lastShotTime = System.currentTimeMillis();
     private int damage;
     private int explosiveHealth = 101;
+    private PotatoMineA potatoMineAnimation;
 
     /**
      * The constructor of PotatoMine Plant
@@ -46,13 +49,15 @@ public class PotatoMine extends Plant{
        }
     }
 
-
     /**
      * Method that updates the status of the plant every moment
      */
     @Override
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
+            if (potatoMineAnimation != null) {
+                potatoMineAnimation.removeLabel();
+            }
             poobVsZombies.addPlantToRemove(this);
             return;
         }
@@ -62,6 +67,10 @@ public class PotatoMine extends Plant{
             lastShotTime = currentTime;
         }
         act();
-
     }
+
+    public void setPotatoMineAnimation(PotatoMineA potatoMineAnimation) {
+        this.potatoMineAnimation = potatoMineAnimation;
+    }
+
 }

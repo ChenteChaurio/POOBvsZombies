@@ -1,6 +1,10 @@
 package domain;
 
+import presentation.WallnutA;
+
 public class Wallnut extends Plant{
+
+    private WallnutA wallnutAnimation;
 
     /**
      * The constructor of WallNut Plant
@@ -27,7 +31,14 @@ public class Wallnut extends Plant{
     @Override
     public void update()  {
         if(!isAlive()){
+            if (wallnutAnimation != null) {
+                wallnutAnimation.removeLabel();
+            }
             poobVsZombies.addPlantToRemove(this);
         }
+    }
+
+    public void setWallnutAnimation(WallnutA wallnutAnimation) {
+        this.wallnutAnimation = wallnutAnimation;
     }
 }

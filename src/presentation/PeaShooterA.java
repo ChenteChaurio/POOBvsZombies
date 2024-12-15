@@ -113,6 +113,14 @@ public class PeaShooterA {
         }
     }
 
+    public void removeLabel() {
+        if (peaShooterLabel != null && parentPanel != null) {
+            parentPanel.remove(peaShooterLabel);
+            parentPanel.revalidate();
+            parentPanel.repaint();
+        }
+    }
+
     public JLabel getPeaShooterLabel() {
         return peaShooterLabel;
     }

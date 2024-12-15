@@ -28,7 +28,7 @@ public class PoobVsZombies {
         loadGame = true;
         createCompleteMatriz();
         this.time = time;
-        start();
+        //start();
     }
 
     /**

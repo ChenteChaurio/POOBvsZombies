@@ -1,8 +1,11 @@
 package domain;
 
+import presentation.SunFlowerA;
+
 public class Sunflower extends Plant{
     private static final int COOLDOWN = 20000;
     private long lastShotTime = System.currentTimeMillis();
+    private SunFlowerA sunFlowerAnimation;
 
 
     /**
@@ -35,9 +38,16 @@ public class Sunflower extends Plant{
      */
     public void update() throws PoobVsZombiesException {
         if(!isAlive()){
+            if (sunFlowerAnimation != null) {
+                sunFlowerAnimation.removeLabel();
+            }
             poobVsZombies.addPlantToRemove(this);
             return;
         }
         act();
+    }
+
+    public void setSunFlowerAnimation(SunFlowerA sunFlowerAnimation) {
+        this.sunFlowerAnimation = sunFlowerAnimation;
     }
 }

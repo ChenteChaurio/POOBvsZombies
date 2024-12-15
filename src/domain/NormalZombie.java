@@ -1,11 +1,14 @@
 package domain;
 
+import presentation.BasicZombieA;
+
 import java.util.NoSuchElementException;
 
 public class NormalZombie extends Zombie {
     private boolean hasWaitedTwoSeconds = false;
     private long lastWaitTime = System.currentTimeMillis();
 
+    private BasicZombieA animation;
     /**
      * The constructor of NormalZombie Zombie
      * @param x the position in x
@@ -29,6 +32,7 @@ public class NormalZombie extends Zombie {
     public void move() throws PoobVsZombiesException {
         if (y > 0) {
             poobVsZombies.addZombieToMove(this);
+            animation.updatePosition(x, y);
         }
     }
 
@@ -54,6 +58,7 @@ public class NormalZombie extends Zombie {
         }
         if (plant != null) {
             plant.takeDamage(damage);
+            animation.animateAttack();
         }
     }
 

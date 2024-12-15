@@ -45,7 +45,7 @@ public class SeleccionPlantasGUI extends JPanel {
         planta1Button.setBounds((width - buttonWidth) / 2, height / 3, buttonWidth, buttonHeight);
         planta2Button.setBounds((width - buttonWidth) / 2, height / 2, buttonWidth, buttonHeight);
         planta3Button.setBounds((width - buttonWidth) / 2, (height * 2) / 3, buttonWidth, buttonHeight);
-        iniciarButton.setBounds((width/2)-540, (height/2)+440, buttonWidthstart,buttonHeightstart);
+        iniciarButton.setBounds((int) ((width/2)*.4), (int)((height/2)*1.8), buttonWidthstart,buttonHeightstart);
 
         add(planta1Button);
         add(planta2Button);
@@ -57,19 +57,16 @@ public class SeleccionPlantasGUI extends JPanel {
         JButton planta1Button = (JButton) getComponent(0);
         planta1Button.addActionListener(e -> {
             System.out.println("Planta 1 seleccionada.");
-            // Aquí puedes agregar la lógica para seleccionar la planta
         });
 
         JButton planta2Button = (JButton) getComponent(1);
         planta2Button.addActionListener(e -> {
             System.out.println("Planta 2 seleccionada.");
-            // Aquí puedes agregar la lógica para seleccionar la planta
         });
 
         JButton planta3Button = (JButton) getComponent(2);
         planta3Button.addActionListener(e -> {
             System.out.println("Planta 3 seleccionada.");
-            // Aquí puedes agregar la lógica para seleccionar la planta
         });
 
         JButton iniciarButton = (JButton) getComponent(3);

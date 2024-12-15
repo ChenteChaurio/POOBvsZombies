@@ -116,6 +116,14 @@ public class PotatoMineA {
         }
     }
 
+    public void removeLabel() {
+        if (potatoMineLabel != null && parentPanel != null) {
+            parentPanel.remove(potatoMineLabel);
+            parentPanel.revalidate();
+            parentPanel.repaint();
+        }
+    }
+
     public JLabel getPeaShooterLabel() {
         return potatoMineLabel;
     }
