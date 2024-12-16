@@ -363,6 +363,7 @@ public class TableroGUI extends JPanel {
                 break;
             }
         }
+        PeaA peaProjectile = new PeaA(x, y, this, game);
 //        public void animatePeaProjectile() {
 //            PeaA peaProjectile = new PeaA(x, y, this, game);
 //            Pea pea = new Pea(x, y + 1);
