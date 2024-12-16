@@ -138,46 +138,33 @@ public class PoobVsZombiesTest {
 
     @Test
     public void testUpdatePeas() throws PoobVsZombiesException {
-
         Zombie zombie = new NormalZombie(2, 3, game);
         game.setThing(2, 3, zombie);
-
         Pea pea = new Pea(2, 2);
         game.addPea(pea);
-
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-
         game.updatePeas();
-
         assertEquals(2, pea.getX());
         assertEquals(3, pea.getY());
-
         assertEquals(80, zombie.getHealth());
-
         pea.move();
         pea.move();
         game.updatePeas();
-
         assertFalse(game.getPeas().contains(pea));
     }
 
     @Test
     public void testMoveZombies() throws PoobVsZombiesException {
-
         Zombie zombie = new NormalZombie(2, 1, game);
         game.setThing(2, 1, zombie);
-
         game.addZombieToMove(zombie);
-
         game.moveZombies();
-
         assertTrue(game.getBoard()[2][0].contains(zombie));
         assertFalse(game.getBoard()[2][1].contains(zombie));
-
         assertEquals(2, zombie.getX());
         assertEquals(0, zombie.getY());
     }
@@ -198,8 +185,9 @@ public class PoobVsZombiesTest {
         // Paso 3: Marcar la planta para eliminación
         game.addPlantToRemove(plant);
 
-        // Paso 4: Ejecutar la eliminación
-        game.removeMarkedThings();
+        // Simular un ciclo de actualización donde se llama a removeMarkedThings
+        // Llamar a removeMarkedThings en un contexto donde no se esté iterando sobre las listas
+        game.removeMarkedThings(); // Llamar aquí para eliminar las plantas marcadas
 
         // Paso 5: Verificar que la planta haya sido eliminada
         assertFalse(game.getBoard()[1][1].contains(plant)); // La planta no debe estar en el tablero
