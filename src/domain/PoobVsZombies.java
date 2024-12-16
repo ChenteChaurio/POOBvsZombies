@@ -3,7 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class PoobVsZombies {
+public class PoobVsZombies implements Runnable {
     public static int width = 10;
     public static int height = 5;
     private ArrayList<Thing>[][] board = new ArrayList[height][width];
@@ -27,8 +27,9 @@ public class PoobVsZombies {
     public PoobVsZombies(Integer time) throws PoobVsZombiesException {
         loadGame = true;
         createCompleteMatriz();
+        createLawnMovers();
         this.time = time;
-        //start();
+        start();
     }
 
     /**
@@ -42,14 +43,16 @@ public class PoobVsZombies {
         }
     }
 
-    private void start() throws PoobVsZombiesException {
-        while (loadGame) {
-            updateLawnMover();
-            updatePlants();
-            updatePeas();
-            updateZombies();
-            checkLoseGame();
+    private void createLawnMovers() throws PoobVsZombiesException {
+        for (int i = 0; i < height; i++) {
+            LawnMover lawnMover = new LawnMover(i,0,this);
+            setThing(i,0,lawnMover);
         }
+    }
+
+    private void start() {
+        Thread gameThread = new Thread(this);
+        gameThread.start();
     }
 
 
@@ -333,12 +336,21 @@ public class PoobVsZombies {
                 loadGame = false;
             }
         }
-
-        if (time <= 0) {
-            loadGame = false;
-        }
     }
 
 
-
+    @Override
+    public void run() {
+        while (loadGame) {
+            try {
+                updateLawnMover();
+                updatePlants();
+                updatePeas();
+                updateZombies();
+                checkLoseGame();
+            } catch (PoobVsZombiesException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

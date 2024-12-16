@@ -93,7 +93,7 @@ public class TableroGUI extends JPanel {
                 buttons[i][j] = new JButton();
                 buttons[i][j].setOpaque(false);
                 buttons[i][j].setContentAreaFilled(false);
-                //button.setBorderPainted(false);
+                buttons[i][j].setBorderPainted(false);
                 buttons[i][j].setVisible(true);
                 gbc.gridx = j;
                 gbc.gridy = i;
