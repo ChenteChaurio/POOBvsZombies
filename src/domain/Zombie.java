@@ -1,6 +1,6 @@
 package domain;
 
-abstract class Zombie implements Thing {
+public abstract class Zombie implements Thing {
     protected int health;
     protected int speed;
     protected boolean alive = true;

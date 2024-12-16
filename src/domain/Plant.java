@@ -1,6 +1,6 @@
 package domain;
 
-abstract class Plant implements Thing{
+public abstract class Plant implements Thing{
     protected int health;
     protected int cost;
     protected boolean alive = true;

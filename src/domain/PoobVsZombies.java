@@ -10,7 +10,7 @@ public class PoobVsZombies {
     private PlantPlayer player1;
     private PlantPlayer player2;
     private Integer time;
-    private boolean loadGame;
+    public boolean loadGame;
     public ArrayList<Zombie> zombies = new ArrayList<>();
     public ArrayList<Zombie> zombiesToRemove = new ArrayList<>();
     private ArrayList<Zombie> zombiesToMove = new ArrayList<>();
@@ -207,7 +207,7 @@ public class PoobVsZombies {
      * @param pea the pea to be verified
      * @return
      */
-    private boolean checkPeaCollision(Pea pea) {
+    public boolean checkPeaCollision(Pea pea) {
         for (int j = 0; j < board[pea.getX()].length; j++) {
             for(Thing things : board[pea.getX()][j]){
                 if(things instanceof Zombie){
@@ -226,7 +226,7 @@ public class PoobVsZombies {
      * Auxiliary method moving zombies
      * @throws PoobVsZombiesException
      */
-    private void moveZombies() throws PoobVsZombiesException {
+    public void moveZombies() throws PoobVsZombiesException {
         for (Zombie zombie : zombiesToMove) {
             int targetX = zombie.getX();
             int targetY = zombie.getY() - 1;
@@ -240,7 +240,7 @@ public class PoobVsZombies {
         zombiesToMove.clear();
     }
 
-    private void moveLawnMovers(){
+    public void moveLawnMovers(){
         for (LawnMover mover : lawnMoversToMove) {
             int targetX = mover.getX();
             int targetY = mover.getY()+1;
@@ -327,7 +327,7 @@ public class PoobVsZombies {
     }
 
 
-    private void checkLoseGame() {
+    public void checkLoseGame() {
         for (Zombie zombie : zombies) {
             if (zombie.getX() == 0 && zombie.isAlive()) {
                 loadGame = false;
